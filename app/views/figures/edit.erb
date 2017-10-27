@@ -1,0 +1,44 @@
+<h1>Edit a Figure</h1>
+
+<form action="/figures/<%= @figure.id%>" method="POST">
+  <input type="hidden" id="hidden" name="_method" value="patch">
+  <h3>Current Name: <%= @figure.name %></h3>
+  <p>New Name: <input type="text" name="figure[name]" id="figure_name"></p>
+
+  <h3>Current Titles:
+  <%@figure.titles.each do |title|%>
+  <%=title.name   %></h3>
+  <%end%>
+
+  <h4>Select a New Title</h4>
+  <h5>Check all that apply, even if currently an associated title</h5
+  <% Title.all.each do |title| %>
+      <input type="checkbox" name="figure[title_ids][]" value="<%= title.id%>" id="title_<%=title.id%>">
+      <%= title.name%>
+    </input>
+  <%end%>
+
+  <h4>Or Create a New Title</h4>
+  <p>New Title: <input type="text" name="title[name]" id="new_title"></p>
+
+  <h3>Landmarks</h3>
+  <%@figure.landmarks.each.with_index(1) do |landmark, index| %>
+    <p><%=index %>. <a href="/landmarks/<%= landmark.id%>"><%= landmark.name%></a></p>
+  <%end%>
+
+  <h4>Change Associated Landmarks</h4>
+  <h5>Check all that apply, even if currently an associated landmark</h5>
+  <label name="landmarks"></label>
+  <% Landmark.all.each do |landmark| %>
+    <input type="checkbox" name="figure[landmark_ids][]" value="<%= landmark.id%>" id="landmark_<%=landmark.id%>">
+      <%= landmark.name%>
+    </input>
+  <%end%>
+
+  <h4>Or Create a New Landmark</h4>
+  <p>Name: <input type="text" name="landmark[name]" id="new_landmark"></p>
+  <p>Date: <input type="text" name="landmark[year_completed]"></p>
+
+  <input type="submit" id="Edit Figure" value="Edit Figure">
+
+</form>
